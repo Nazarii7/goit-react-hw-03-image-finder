@@ -12,12 +12,18 @@ class App extends Component {
   };
 
   handleFormSubmit = query => {
-    this.setState({ query: query });
+    this.setState({ query: query, page: 1, pictures: [] });
+  };
+
+  loadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
 
   updatePictures = pictures => {
     this.setState(prevState => ({
-      pictures: [...prevState.pictures, pictures],
+      pictures: [...prevState.pictures, ...pictures],
     }));
   };
 
@@ -28,8 +34,9 @@ class App extends Component {
         <Searcbar onSubmit={this.handleFormSubmit} />
         <ImageGallery
           query={query}
-          pictures={pictures}
           page={page}
+          pictures={pictures}
+          loadMore={this.loadMore}
           updatePictures={this.updatePictures}
         />
         <ToastContainer />
