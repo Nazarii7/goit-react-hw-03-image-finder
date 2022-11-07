@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { ImSearch } from 'react-icons/im';
-import { toast } from 'react-toastify';
 import css from './Searchbar.module.css';
+import PropTypes from 'prop-types';
+
+import { TiZoomOutline } from 'react-icons/ti';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Searchbar extends Component {
   state = {
@@ -15,7 +18,7 @@ class Searchbar extends Component {
   handleSubmit = event => {
     event.preventDefault();
     if (this.state.query.trim() === '') {
-      toast('Будь ласка, напишіть Ваш запит', {
+      toast.warning('Будь ласка, напишіть Ваш запит', {
         icon: '⏳',
       });
       return;
@@ -23,20 +26,15 @@ class Searchbar extends Component {
 
     this.props.onSubmit(this.state.query);
     this.setState({ query: '' });
-    this.reset();
-  };
-
-  reset = () => {
-    this.setState(this.state.query);
   };
 
   render() {
     const { query } = this.state;
     return (
       <header className={css.Searchbar}>
-        <form className={css.SearchForm}>
+        <form className={css.SearchForm} onSubmit={this.handleSubmit}>
           <button className={css.Button} type="submit">
-            <ImSearch />
+            <TiZoomOutline size={26} />
           </button>
 
           <input
@@ -53,5 +51,9 @@ class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func,
+};
 
 export default Searchbar;
